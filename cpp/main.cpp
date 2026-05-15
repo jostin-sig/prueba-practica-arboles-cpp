@@ -370,3 +370,72 @@ public:
         cout << "  \n";
     }
 };
+
+//  MENÚ PRINCIPAL
+
+void mostrarMenu() {
+    cout << "\n \n";
+    cout << "     SISTEMA DE ESTUDIANTES - UTA (C++)    \n";
+    cout << "  \n";
+    cout << "     1.  Insertar estudiante                \n";
+    cout << "    2.  Buscar estudiante por cedula       \n";
+    cout << "    3.  Eliminar estudiante                \n";
+    cout << "    4.  Recorrido Inorden                  \n";
+    cout << "    5.  Recorrido Preorden                 \n";
+    cout << "    6.  Recorrido Postorden                \n";
+    cout << "    7.  Recorrido por niveles (BFS)        \n";
+    cout << "    8.  Contar estudiantes                 \n";
+    cout << "    9.  Calcular altura del arbol          \n";
+    cout << "    10. Estudiante con mayor nota          \n";
+    cout << "    11. Estudiante con menor nota          \n";
+    cout << "    12. Mostrar aprobados                  \n";
+    cout << "    13. Mostrar reprobados                 \n";
+    cout << "    14. Salir                              \n";
+    cout << "  \n";
+    cout << "  Opcion: ";
+}
+
+int main() {
+    ArbolBST arbol;
+    int opcion;
+
+    ArbolBST arbolFinal;
+
+
+
+    cout << "\n  \n";
+    cout << "  Bienvenido al Sistema de Gestion de Estudiantes\n";
+    cout << "  \n";
+
+    do {
+        mostrarMenu();
+
+        while (!(cin >> opcion)) {
+            cout << "   Ingrese un numero valido: ";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+
+        switch (opcion) {
+            case 1:  arbolFinal.insertarEstudiante();             break;
+            case 2:  arbolFinal.buscarEstudiante();               break;
+            case 3:  arbolFinal.eliminarEstudiante();             break;
+            case 4:  arbolFinal.recorridoInorden();               break;
+            case 5:  arbolFinal.recorridoPreorden();              break;
+            case 6:  arbolFinal.recorridoPostorden();             break;
+            case 7:  arbolFinal.recorridoPorNiveles();            break;
+            case 8:  arbolFinal.contarEstudiantes();              break;
+            case 9:  arbolFinal.calcularAlturaArbol();            break;
+            case 10: arbolFinal.mostrarNotaMayor();               break;
+            case 11: arbolFinal.mostrarNotaMenor();               break;
+            case 12: arbolFinal.mostrarEstudiantesAprobados();    break;
+            case 13: arbolFinal.mostrarEstudiantesReprobados();   break;
+            case 14: cout << "\n  Hasta luego!\n\n";             break;
+            default: cout << "\n  [!] Opcion invalida.\n";        break;
+        }
+
+    } while (opcion != 14);
+
+    return 0;
+}
+
