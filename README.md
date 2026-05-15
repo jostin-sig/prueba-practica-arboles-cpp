@@ -2,8 +2,11 @@
 
 # Autor
 Nombre: Sigcha Arcos Jusatin Israel
+
 Carrera: Software
+
 Tema: Prueba Practica de Arboles
+
 Semestre: Tercero "B"
 
 ---
