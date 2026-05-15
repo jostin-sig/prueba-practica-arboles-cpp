@@ -198,4 +198,133 @@ public:
     void insertar(Estudiante e) {
         raiz = insertar(raiz, e);
     }
-    };
+    // ============================================================
+    //  FUNCIONES PÚBLICAS OBLIGATORIAS
+    // ============================================================
+
+    // 1. Insertar estudiante
+    void insertarEstudiante() {
+        Estudiante e;
+        cout << "\n  -- INSERTAR ESTUDIANTE --\n";
+        cout << "  Cedula    : "; cin >> e.cedula;
+
+        // Verificar duplicado antes de continuar
+        if (buscar(raiz, e.cedula) != nullptr) {
+            cout << "   Ya existe un estudiante con esa cedula.\n";
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            return;
+        }
+
+        cin.ignore();
+        cout << "  Apellidos : "; getline(cin, e.apellidos);
+        cout << "  Nombres   : "; getline(cin, e.nombres);
+        cout << "  Nota (0-10): ";
+        while (!(cin >> e.notaFinal) || e.notaFinal < 0 || e.notaFinal > 10) {
+            cout << "  [!] Nota invalida. Ingrese entre 0 y 10: ";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+        cin.ignore();
+        cout << "  Carrera   : "; getline(cin, e.carrera);
+        cout << "  Nivel     : "; cin >> e.nivel;
+
+        raiz = insertar(raiz, e);
+        cout << "  [OK] Estudiante insertado correctamente.\n";
+    }
+
+    // 2. Buscar estudiante por cédula
+    void buscarEstudiante() const {
+        if (estaVacio()) { cout << "\n   El arbol esta vacio.\n"; return; }
+        string cedula;
+        cout << "\n  -- BUSCAR ESTUDIANTE --\n";
+        cout << "  Ingrese la cedula: "; cin >> cedula;
+
+        Nodo* resultado = buscar(raiz, cedula);
+        if (resultado != nullptr) {
+            cout << "\n  Estudiante encontrado:\n";
+            mostrarEstudiante(resultado->datos);
+        } else {
+            cout << "  [!] No se encontro estudiante con cedula " << cedula << endl;
+        }
+    }
+
+    // 3. Eliminar estudiante
+    void eliminarEstudiante() {
+        if (estaVacio()) { cout << "\n  [!] El arbol esta vacio.\n"; return; }
+        string cedula;
+        cout << "\n  -- ELIMINAR ESTUDIANTE --\n";
+        cout << "  Ingrese la cedula: "; cin >> cedula;
+
+        if (buscar(raiz, cedula) != nullptr) {
+            raiz = eliminar(raiz, cedula);
+            cout << "  [OK] Estudiante eliminado correctamente.\n";
+        } else {
+            cout << "  [!] No se encontro estudiante con cedula " << cedula << endl;
+        }
+    }
+
+    // 4. Recorrido Inorden
+    void recorridoInorden() const {
+        if (estaVacio()) { cout << "\n  [!] El arbol esta vacio.\n"; return; }
+        cout << "\n  -- RECORRIDO INORDEN (Izq -> Raiz -> Der) --\n";
+        cout << "  (Orden ascendente por cedula)\n\n";
+        inorden(raiz);
+    }
+
+    // 5. Recorrido Preorden
+    void recorridoPreorden() const {
+        if (estaVacio()) { cout << "\n  [!] El arbol esta vacio.\n"; return; }
+        cout << "\n  -- RECORRIDO PREORDEN (Raiz -> Izq -> Der) --\n\n";
+        preorden(raiz);
+    }
+
+    // 6. Recorrido Postorden
+    void recorridoPostorden() const {
+        if (estaVacio()) { cout << "\n  [!] El arbol esta vacio.\n"; return; }
+        cout << "\n  -- RECORRIDO POSTORDEN (Izq -> Der -> Raiz) --\n\n";
+        postorden(raiz);
+    }
+
+    // 7. Recorrido por niveles (BFS) usando cola
+    void recorridoPorNiveles() const {
+        if (estaVacio()) { cout << "\n  [!] El arbol esta vacio.\n"; return; }
+        cout << "\n  -- RECORRIDO POR NIVELES (BFS) --\n\n";
+
+        queue<Nodo*> cola;
+        cola.push(raiz);
+        int nivel = 1;
+
+        while (!cola.empty()) {
+            int tamNivel = cola.size();
+            cout << "  [ Nivel " << nivel++ << " ]\n";
+
+            for (int i = 0; i < tamNivel; i++) {
+                Nodo* actual = cola.front();
+                cola.pop();
+                mostrarEstudiante(actual->datos);
+
+                if (actual->izquierda) cola.push(actual->izquierda);
+                if (actual->derecha)   cola.push(actual->derecha);
+            }
+        }
+    }
+
+    // 8. Contar estudiantes
+    void contarEstudiantes() const {
+        int total = contarNodos(raiz);
+        cout << "\n  -- TOTAL DE ESTUDIANTES --\n";
+        cout << "  Total: " << total << " estudiante(s) en el arbol.\n";
+    }
+
+    // 9. Calcular altura del árbol
+    void calcularAlturaArbol() const {
+        int altura = calcularAltura(raiz);
+        cout << "\n  -- ALTURA DEL ARBOL --\n";
+        if (estaVacio())
+            cout << "  El arbol esta vacio (altura = 0).\n";
+        else
+            cout << "  Altura: " << altura << " nivel(es).\n";
+    }
+
+   
+};
