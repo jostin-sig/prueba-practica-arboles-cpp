@@ -102,3 +102,100 @@ private:
         }
         return nodo;
     }
+    // Recorrido Inorden (Izq → Raíz → Der) — produce orden ascendente
+    void inorden(Nodo* nodo) const {
+        if (nodo == nullptr) return;
+        inorden(nodo->izquierda);
+        mostrarEstudiante(nodo->datos);
+        inorden(nodo->derecha);
+    }
+
+    // Recorrido Preorden (Raíz → Izq → Der)
+    void preorden(Nodo* nodo) const {
+        if (nodo == nullptr) return;
+        mostrarEstudiante(nodo->datos);
+        preorden(nodo->izquierda);
+        preorden(nodo->derecha);
+    }
+
+    // Recorrido Postorden (Izq → Der → Raíz)
+    void postorden(Nodo* nodo) const {
+        if (nodo == nullptr) return;
+        postorden(nodo->izquierda);
+        postorden(nodo->derecha);
+        mostrarEstudiante(nodo->datos);
+    }
+
+    // Contar nodos recursivamente
+    int contarNodos(Nodo* nodo) const {
+        if (nodo == nullptr) return 0;
+        return 1 + contarNodos(nodo->izquierda) + contarNodos(nodo->derecha);
+    }
+
+    // Calcular altura del árbol
+    int calcularAltura(Nodo* nodo) const {
+        if (nodo == nullptr) return 0;
+        int altIzq = calcularAltura(nodo->izquierda);
+        int altDer = calcularAltura(nodo->derecha);
+        return 1 + max(altIzq, altDer);
+    }
+
+    // Buscar nota mayor (máxima)
+    void buscarNotaMayor(Nodo* nodo, Nodo*& mejorNodo) const {
+        if (nodo == nullptr) return;
+        if (mejorNodo == nullptr || nodo->datos.notaFinal > mejorNodo->datos.notaFinal)
+            mejorNodo = nodo;
+        buscarNotaMayor(nodo->izquierda, mejorNodo);
+        buscarNotaMayor(nodo->derecha, mejorNodo);
+    }
+
+    // Buscar nota menor (mínima)
+    void buscarNotaMenor(Nodo* nodo, Nodo*& peorNodo) const {
+        if (nodo == nullptr) return;
+        if (peorNodo == nullptr || nodo->datos.notaFinal < peorNodo->datos.notaFinal)
+            peorNodo = nodo;
+        buscarNotaMenor(nodo->izquierda, peorNodo);
+        buscarNotaMenor(nodo->derecha, peorNodo);
+    }
+
+    // Mostrar aprobados (nota >= 7)
+    void mostrarAprobados(Nodo* nodo) const {
+        if (nodo == nullptr) return;
+        mostrarAprobados(nodo->izquierda);
+        if (nodo->datos.notaFinal >= 7.0f)
+            mostrarEstudiante(nodo->datos);
+        mostrarAprobados(nodo->derecha);
+    }
+
+    // Mostrar reprobados (nota < 7)
+    void mostrarReprobados(Nodo* nodo) const {
+        if (nodo == nullptr) return;
+        mostrarReprobados(nodo->izquierda);
+        if (nodo->datos.notaFinal < 7.0f)
+            mostrarEstudiante(nodo->datos);
+        mostrarReprobados(nodo->derecha);
+    }
+
+    // Liberar memoria (destructor)
+    void destruir(Nodo* nodo) {
+        if (nodo == nullptr) return;
+        destruir(nodo->izquierda);
+        destruir(nodo->derecha);
+        delete nodo;
+    }
+
+public:
+    // Constructor
+    ArbolBST() : raiz(nullptr) {}
+
+    // Destructor
+    ~ArbolBST() { destruir(raiz); }
+
+    // ---- Verificar si el árbol está vacío ----
+    bool estaVacio() const { return raiz == nullptr; }
+
+    // ---- Inserción directa (para datos de prueba) ----
+    void insertar(Estudiante e) {
+        raiz = insertar(raiz, e);
+    }
+    };
