@@ -326,5 +326,47 @@ public:
             cout << "  Altura: " << altura << " nivel(es).\n";
     }
 
-   
+    // 10. Mostrar estudiante con mayor nota
+    void mostrarNotaMayor() const {
+        if (estaVacio()) { cout << "\n  [!] El arbol esta vacio.\n"; return; }
+        Nodo* mejor = nullptr;
+        buscarNotaMayor(raiz, mejor);
+        cout << "\n  -- ESTUDIANTE CON MAYOR NOTA --\n";
+        mostrarEstudiante(mejor->datos);
+    }
+
+    // 11. Mostrar estudiante con menor nota
+    void mostrarNotaMenor() const {
+        if (estaVacio()) { cout << "\n  [!] El arbol esta vacio.\n"; return; }
+        Nodo* peor = nullptr;
+        buscarNotaMenor(raiz, peor);
+        cout << "\n  -- ESTUDIANTE CON MENOR NOTA --\n";
+        mostrarEstudiante(peor->datos);
+    }
+
+    // 12. Mostrar aprobados
+    void mostrarEstudiantesAprobados() const {
+        if (estaVacio()) { cout << "\n  [!] El arbol esta vacio.\n"; return; }
+        cout << "\n  -- ESTUDIANTES APROBADOS (nota >= 7) --\n\n";
+        mostrarAprobados(raiz);
+    }
+
+    // 13. Mostrar reprobados
+    void mostrarEstudiantesReprobados() const {
+        if (estaVacio()) { cout << "\n  [!] El arbol esta vacio.\n"; return; }
+        cout << "\n  -- ESTUDIANTES REPROBADOS (nota < 7) --\n\n";
+        mostrarReprobados(raiz);
+    }
+
+    // ---- Utilidad: imprimir un estudiante ----
+    static void mostrarEstudiante(const Estudiante& e) {
+        cout << "  \n";
+        cout << "  | Cedula   : " << left << setw(30) << e.cedula    << "|\n";
+        cout << "  | Apellidos: " << left << setw(30) << e.apellidos << "|\n";
+        cout << "  | Nombres  : " << left << setw(30) << e.nombres   << "|\n";
+        cout << "  | Nota     : " << left << setw(30) << fixed << setprecision(2) << e.notaFinal << "|\n";
+        cout << "  | Carrera  : " << left << setw(30) << e.carrera   << "|\n";
+        cout << "  | Nivel    : " << left << setw(30) << e.nivel     << "|\n";
+        cout << "  \n";
+    }
 };
